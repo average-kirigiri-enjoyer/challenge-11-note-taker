@@ -26,6 +26,9 @@ https://meyerweb.com/eric/tools/css/reset/
 MIT License Badge (./README.md, line 1);
 https://gist.github.com/lukas-h/2a5d00690736b4c3a7ba
 
+uuid.js file (./helpers/uuid.js)
+https://git.bootcampcontent.com/University-of-Toronto/UTOR-VIRT-FSF-PT-07-2023-U-LOLC/-/tree/main
+
 ## License
 
 Operates under a standard MIT license. For more information, refer to the LICENSE file in the repository, or visit the following website; https://opensource.org/licenses/MIT.

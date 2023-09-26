@@ -11,11 +11,20 @@ const path = require('path');
 const fs = require("fs");
 const uuid = require("../helpers/uuid.js");
 
-/*notes.get('/', (req, res) =>
+notes.get('/', (req, res) =>
 {
-  console.log(`get notes successful`);
-  res.json(`get notes successful`);
-});*/
+  fs.readFile(path.join(__dirname, "../db/db.json"), 'utf8', (err, data) =>
+    {
+      if (err)
+      {
+        console.error(err);
+      }
+      else
+      {
+        res.json(data);
+      }
+    });
+});
 
 //handler for POST requests to the /notes page
 notes.post('/', (req, res) =>
@@ -26,9 +35,9 @@ notes.post('/', (req, res) =>
     const {title, text} = req.body; //deconstructs note properties from front-end request
     const noteData = //creates new note object with above data, plus a unique note ID
     {
-      noteTitle: title,
-      noteText: text,
-      noteID: uuid(),
+      title: title,
+      text: text,
+      id: uuid(),
     };
 
     fs.readFile(path.join(__dirname, "../db/db.json"), 'utf8', (err, data) =>
@@ -40,7 +49,6 @@ notes.post('/', (req, res) =>
       else
       {
         let existingNotes = JSON.parse(data);
-        console.log(existingNotes);
         existingNotes.push(noteData);
 
         fs.writeFile(path.join(__dirname, "../db/db.json"), JSON.stringify(existingNotes, null, 4),
@@ -48,6 +56,8 @@ notes.post('/', (req, res) =>
           ? console.error(writeErr)
           : console.info('successfully updated notes'));
       }
+
+      res.json(noteData);
     });
   }
   else //if the request body does not exist, reject the promise
