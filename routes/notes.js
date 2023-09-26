@@ -4,6 +4,8 @@ SCS Boot Camp Module 11 Weekly Challenge - Note Taker
 Created 2023/09/26
 Last Edited 2023/09/26
 */
+
+//imports libraries & packages
 const notes = require("express").Router();
 const path = require('path');
 const fs = require("fs");
@@ -15,16 +17,19 @@ const uuid = require("../helpers/uuid.js");
   res.json(`get notes successful`);
 });*/
 
+//handler for POST requests to the /notes page
 notes.post('/', (req, res) =>
 {
-  if (req.body)
+  if (req.body) //checks if the request body exists
   {
-    //review_id: uuid()
-    
-    console.log(`post notes successful`);
-    noteData = req.body;
-    console.log(noteData);
-    res.json(`post notes successful`);
+    console.log(req.body);
+    const {title, text} = req.body; //deconstructs note properties from front-end request
+    const noteData = //creates new note object with above data, plus a unique note ID
+    {
+      noteTitle: title,
+      noteText: text,
+      noteID: uuid(),
+    };
 
     fs.readFile(path.join(__dirname, "../db/db.json"), 'utf8', (err, data) =>
     {
@@ -45,9 +50,9 @@ notes.post('/', (req, res) =>
       }
     });
   }
-  else
+  else //if the request body does not exist, reject the promise
   {
-    res.error('error recieving note');
+    res.error('error receiving note data');
   }
 });
 
