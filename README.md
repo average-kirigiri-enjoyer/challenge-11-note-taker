@@ -26,8 +26,11 @@ https://meyerweb.com/eric/tools/css/reset/
 MIT License Badge (./README.md, line 1);
 https://gist.github.com/lukas-h/2a5d00690736b4c3a7ba
 
-uuid.js file (./helpers/uuid.js)
+uuid.js file (./helpers/uuid.js);
 https://git.bootcampcontent.com/University-of-Toronto/UTOR-VIRT-FSF-PT-07-2023-U-LOLC/-/tree/main
+
+findIndex() syntax (./routes/notes.js, LINES GO HERE);
+https://stackoverflow.com/questions/44383111/findindex-javascript-array-object
 
 ## License
 

@@ -54,8 +54,7 @@ const saveNote = (note) =>
     headers: {'Content-Type': 'application/json',},
     body: JSON.stringify(note),
   })
-  .catch((error) => {console.error('Error:', error);
-  });
+  .catch((error) => console.error('Error:', error));
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`,
@@ -65,7 +64,8 @@ const deleteNote = (id) =>
     {
       'Content-Type': 'application/json',
     },
-  });
+  })
+  .catch((error) => console.error('Error:', error));
 
 const renderActiveNote = () =>
 {
@@ -102,7 +102,7 @@ const handleNoteSave = () =>
 };
 
 // Delete the clicked note
-const handleNoteDelete = (e) =>
+const handleNoteDelete = async (e) =>
 {
   // Prevents the click listener for the list from being called when the button inside of it is clicked
   e.stopPropagation();
@@ -115,11 +115,10 @@ const handleNoteDelete = (e) =>
     activeNote = {};
   }
 
-  deleteNote(noteId).then(() =>
-  {
-    getAndRenderNotes();
-    renderActiveNote();
-  });
+  await deleteNote(noteId);
+
+  getAndRenderNotes();
+  renderActiveNote();
 };
 
 // Sets the activeNote and displays it
@@ -153,7 +152,6 @@ const handleRenderSaveBtn = () =>
 const renderNoteList = async (notes) =>
 {
   let jsonNotes = notes;
-  console.log(jsonNotes);
   if (window.location.pathname === '/notes')
   {
     noteList.forEach((el) => (el.innerHTML = ''));

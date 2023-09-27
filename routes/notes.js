@@ -17,7 +17,7 @@ notes.get('/', (req, res) =>
     {
       if (err)
       {
-        console.error(err);
+        res.error(err);
       }
       else
       {
@@ -31,7 +31,6 @@ notes.post('/', (req, res) =>
 {
   if (req.body) //checks if the request body exists
   {
-    console.log(req.body);
     const {title, text} = req.body; //deconstructs note properties from front-end request
     const noteData = //creates new note object with above data, plus a unique note ID
     {
@@ -44,7 +43,7 @@ notes.post('/', (req, res) =>
     {
       if (err)
       {
-        console.error(err);
+        res.error(err);
       }
       else
       {
@@ -64,6 +63,35 @@ notes.post('/', (req, res) =>
   {
     res.error('error receiving note data');
   }
+});
+
+//handler for POST requests to the /notes page
+notes.delete('/:id', (req, res) =>
+{
+  const deleteNoteID = req.params.id;
+
+  fs.readFile(path.join(__dirname, "../db/db.json"), 'utf8', (err, data) =>
+  {
+    if (err)
+    {
+      res.error(err);
+    }
+    else
+    {
+      let existingNotes = JSON.parse(data);
+      const deleteNoteIndex = existingNotes.findIndex(note => note.id === deleteNoteID); //retrieves index of note to delete via the given id
+      existingNotes.splice(deleteNoteIndex, 1); //removes note from appropriate index
+
+      fs.writeFile(path.join(__dirname, "../db/db.json"), JSON.stringify(existingNotes, null, 4),
+        (writeErr) => writeErr
+        ? console.error(writeErr)
+        : console.info('successfully updated notes'));
+
+      res.json(existingNotes);
+    }
+
+    
+  });
 });
 
 module.exports = notes;
