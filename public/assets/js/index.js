@@ -43,18 +43,18 @@ const getNotes = () =>
     {
       'Content-Type': 'application/json',
     },
-  });
+  })
+  .then((response) => response.json())
+  .then((data) => renderNoteList(JSON.parse(data)));
 
 const saveNote = (note) =>
   fetch('/api/notes',
   {
     method: 'POST',
-    headers:
-    {
-      'Content-Type': 'application/json',
-    },
+    headers: {'Content-Type': 'application/json',},
     body: JSON.stringify(note),
-  });
+  })
+  .catch((error) => console.error('Error:', error));
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`,
@@ -64,7 +64,8 @@ const deleteNote = (id) =>
     {
       'Content-Type': 'application/json',
     },
-  });
+  })
+  .catch((error) => console.error('Error:', error));
 
 const renderActiveNote = () =>
 {
@@ -101,7 +102,7 @@ const handleNoteSave = () =>
 };
 
 // Delete the clicked note
-const handleNoteDelete = (e) =>
+const handleNoteDelete = async (e) =>
 {
   // Prevents the click listener for the list from being called when the button inside of it is clicked
   e.stopPropagation();
@@ -114,11 +115,10 @@ const handleNoteDelete = (e) =>
     activeNote = {};
   }
 
-  deleteNote(noteId).then(() =>
-  {
-    getAndRenderNotes();
-    renderActiveNote();
-  });
+  await deleteNote(noteId);
+
+  getAndRenderNotes();
+  renderActiveNote();
 };
 
 // Sets the activeNote and displays it
@@ -151,7 +151,7 @@ const handleRenderSaveBtn = () =>
 // Render the list of note titles
 const renderNoteList = async (notes) =>
 {
-  let jsonNotes = await notes.json();
+  let jsonNotes = notes;
   if (window.location.pathname === '/notes')
   {
     noteList.forEach((el) => (el.innerHTML = ''));
@@ -210,7 +210,7 @@ const renderNoteList = async (notes) =>
 };
 
 // Gets notes from the db and renders them to the sidebar
-const getAndRenderNotes = () => getNotes().then(renderNoteList);
+const getAndRenderNotes = () => getNotes();
 
 if (window.location.pathname === '/notes')
 {

@@ -42,7 +42,7 @@ html, body
 
 .note-title
 {
-  height: 50px;
+  height: 60px;
   margin-top: 13px;
   font-size: 3rem;
 }
@@ -75,7 +75,23 @@ html, body
 .list-item-title
 {
   display: inline-block;
-  width: 75%;
+  width: 95%;
+}
+
+@media screen and (max-width: 1100px)
+{
+  .list-item-title
+  {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 640px)
+{
+  .list-item-title
+  {
+    width: 80%;
+  }
 }
 
 .list-container i
@@ -84,10 +100,23 @@ html, body
   cursor: pointer;
 }
 
-.list-container .list-group-item
+.list-container
 {
   border-left: none;
   border-right: none;
+}
+
+.list-group-item
+{
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border-left: none;
+  border-right: none;
+}
+
+.list-item-title
+{
   padding: 20px;
   cursor: pointer;
 }
