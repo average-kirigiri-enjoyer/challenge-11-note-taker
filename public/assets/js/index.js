@@ -2,15 +2,17 @@
 ethan (average-kirigiri-enjoyer)
 SCS Boot Camp Module 11 Weekly Challenge - Note Taker
 Created 2023/09/24
-Last Edited 2023/09/24
+Last Edited 2023/09/27
 */
 
+//defines variables to hold values relevant for note taking
 let noteTitle;
 let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
 
+//if the window is on the notes page, get references to the appropriate elements of the notes page
 if (window.location.pathname === '/notes')
 {
   noteTitle = document.querySelector('.note-title');
@@ -35,6 +37,7 @@ const hide = (elem) =>
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
 
+//function to retrieve note data, before passing it to another function to render the data to the notes column
 const getNotes = () =>
   fetch('/api/notes',
   {
@@ -47,6 +50,7 @@ const getNotes = () =>
   .then((response) => response.json())
   .then((data) => renderNoteList(JSON.parse(data)));
 
+//function to save a newly-created note to the server's database
 const saveNote = (note) =>
   fetch('/api/notes',
   {
@@ -56,6 +60,7 @@ const saveNote = (note) =>
   })
   .catch((error) => console.error('Error:', error));
 
+//function to delete a note from the server's database
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`,
   {
@@ -67,6 +72,7 @@ const deleteNote = (id) =>
   })
   .catch((error) => console.error('Error:', error));
 
+//function to render data regarding the active note in the note creation panel
 const renderActiveNote = () =>
 {
   hide(saveNoteBtn);
@@ -87,6 +93,7 @@ const renderActiveNote = () =>
   }
 };
 
+//function to process a newly-created note's data before passing it off to another function which sends that data to the server
 const handleNoteSave = () =>
 {
   const newNote =
@@ -136,6 +143,7 @@ const handleNewNoteView = (e) =>
   renderActiveNote();
 };
 
+//function which hides the 'save' button for notes if there are no non-whitespace characters in either the note's title or text field
 const handleRenderSaveBtn = () =>
 {
   if (!noteTitle.value.trim() || !noteText.value.trim())

@@ -2,7 +2,7 @@
 ethan (average-kirigiri-enjoyer)
 SCS Boot Camp Module 11 Weekly Challenge - Note Taker
 Created 2023/09/26
-Last Edited 2023/09/26
+Last Edited 2023/09/27
 */
 
 //imports libraries & packages
@@ -11,6 +11,7 @@ const path = require('path');
 const fs = require("fs");
 const uuid = require("../helpers/uuid.js");
 
+//upon receiving a GET request, the notes page will respond with JSON data of all existing notes if it does not encounter an error
 notes.get('/', (req, res) =>
 {
   fs.readFile(path.join(__dirname, "../db/db.json"), 'utf8', (err, data) =>
@@ -26,7 +27,7 @@ notes.get('/', (req, res) =>
     });
 });
 
-//handler for POST requests to the /notes page
+//upon receiving a POST request, the notes page will attempt to add a new note to the database
 notes.post('/', (req, res) =>
 {
   if (req.body) //checks if the request body exists
@@ -39,13 +40,14 @@ notes.post('/', (req, res) =>
       id: uuid(),
     };
 
+    //attempts to read note data from server database
     fs.readFile(path.join(__dirname, "../db/db.json"), 'utf8', (err, data) =>
     {
-      if (err)
+      if (err) //if an error was encountered, reject the promise
       {
         res.error(err);
       }
-      else
+      else //if the data was successfully retrieved, append the new note to the array, and re-write the database with the new note added
       {
         let existingNotes = JSON.parse(data);
         existingNotes.push(noteData);
@@ -54,9 +56,9 @@ notes.post('/', (req, res) =>
           (writeErr) => writeErr
           ? console.error(writeErr)
           : console.info('successfully updated notes'));
-      }
 
-      res.json(noteData);
+        res.json(noteData); //resolve the promise with the new note's data
+      }
     });
   }
   else //if the request body does not exist, reject the promise
@@ -65,18 +67,19 @@ notes.post('/', (req, res) =>
   }
 });
 
-//handler for POST requests to the /notes page
+//upon receiving a DELETE request, attempts to remove the note with the appropriate ID from the server's database
 notes.delete('/:id', (req, res) =>
 {
-  const deleteNoteID = req.params.id;
+  const deleteNoteID = req.params.id; //retrieves ID of note to delete from request parameter
 
+  //attempts to read note data from server database
   fs.readFile(path.join(__dirname, "../db/db.json"), 'utf8', (err, data) =>
   {
-    if (err)
+    if (err) //if an error was encountered, reject the promise
     {
       res.error(err);
     }
-    else
+    else //if the data was successfully retrieved, find the index of the note with an ID matching that of the delete request
     {
       let existingNotes = JSON.parse(data);
       const deleteNoteIndex = existingNotes.findIndex(note => note.id === deleteNoteID); //retrieves index of note to delete via the given id
@@ -87,11 +90,10 @@ notes.delete('/:id', (req, res) =>
         ? console.error(writeErr)
         : console.info('successfully updated notes'));
 
-      res.json(existingNotes);
+      res.json(existingNotes); //resolves the promise with all existing note data
     }
-
-    
   });
 });
 
+//exports notes functionality to be used in other files
 module.exports = notes;
