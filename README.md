@@ -8,7 +8,7 @@ In the modern day, it is very easy to lose track of the myriad of things you nee
 
 View the Note Taker here;
 
-https://desolate-refuge-44043-95775ddd4e50.herokuapp.com/notes
+https://desolate-refuge-44043-95775ddd4e50.herokuapp.com
 
 Upon visiting the site, you will be greeted by a landing page, within which will be a blue button with the text "Get Started".
 
