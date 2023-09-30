@@ -2,7 +2,7 @@
 
 ## Description
 
-In the modern day, it is very easy to lose track of the myriad of things you need to stay on top of in everyday life, even moreso if you have a demanding job, such as being a business owner. Thus, this app allows a user to organize their thoughts and keep track of tasks that they need to complete.
+In the modern day, it is very easy to lose track of the myriad of things you need to stay on top of in everyday life, even moreso if you have a demanding job, such as being a business owner. Thus, this app allows a user to organize their thoughts and keep track of the tasks that they need to complete.
 
 ## Usage
 
